@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 
 # Load the data from the JSON files
-country_data = pd.read_json('unitedK_essential.json')
+country_data = pd.read_json('unitedK_essential.json') #LEMBRAR DE MUDAR O NOME DO ARQUIVO
 probes_data = pd.read_json('probes.json')
 
 # Merge the belarus data with probes data for additional information
@@ -36,5 +36,5 @@ def plot_latency_by_probe(data, title, xlabel, ylabel, hue, dst_filter=None):
 plot_latency_by_probe(resampled_data, 
                       "Latência ao longo do tempo para cada país - Destino: gov.uk", 
                       "Timestamp", "Latência (ms)", 
-                      "nome", dst_filter="gov.uk")
+                      "nome", dst_filter="gov.uk") #LEMBRAR DE MUDAR O DESTINO
 

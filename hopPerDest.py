@@ -38,4 +38,4 @@ def plot_aggregated_hops_by_destination(file1, file2, file3, probes_file):
     plt.show()
 
 # Exemplo de uso
-plot_aggregated_hops_by_destination('chine_essential.json', 'belarus_essential.json', 'unitedK_essential.json', 'probes.json')
+plot_aggregated_hops_by_destination('china_essential.json', 'belarus_essential.json', 'uk_essential.json', 'probes.json')

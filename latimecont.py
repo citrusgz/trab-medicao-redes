@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Carregar os dados dos arquivos JSON
-continent_data = pd.read_json('belarus_essential.json')
+continent_data = pd.read_json('belarus_essential.json') #LEMBRAR DE MUDAR O NOME DO ARQUIVO
 probes_data = pd.read_json('probes.json')
 
 # Mesclar os dados do continente com os dados dos probes para informações adicionais
@@ -35,4 +35,4 @@ def plot_latency_by_probe(data, title, xlabel, ylabel, hue, dst_filter=None):
 plot_latency_by_probe(resampled_data, 
                       "Latência ao longo do tempo para cada continente - Destino: belarus.by", 
                       "Timestamp", "Latência (ms)", 
-                      "continente", dst_filter="belarus.by")
+                      "continente", dst_filter="belarus.by") #LEMBRAR DE MUDAR O DESTINO
