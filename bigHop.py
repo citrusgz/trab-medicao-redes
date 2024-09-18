@@ -16,6 +16,11 @@ merged_data['timestamp'] = pd.to_datetime(merged_data['timestamp'], unit='s')
 numeric_columns = merged_data.select_dtypes(include='number').columns
 resampled_data = merged_data.set_index('timestamp').groupby(['dst_name', 'continente', 'nome'])[numeric_columns].resample('2h').mean().reset_index()
 
+# Remover valores discrepantes (outliers)
+q_low = resampled_data['hop_number'].quantile(0.01)
+q_high = resampled_data['hop_number'].quantile(0.99)
+filtered_data = resampled_data[(resampled_data['hop_number'] >= q_low) & (resampled_data['hop_number'] <= q_high)]
+
 # Função para plotar gráfico comparando a quantidade de saltos por continente
 def plot_hops_by_continent(data):
     plt.figure(figsize=(10, 6))
@@ -41,5 +46,5 @@ def plot_hops_by_country(data):
     plt.show()
 
 # Gerar gráficos
-plot_hops_by_continent(resampled_data)
-plot_hops_by_country(resampled_data)
+plot_hops_by_continent(filtered_data)
+plot_hops_by_country(filtered_data)

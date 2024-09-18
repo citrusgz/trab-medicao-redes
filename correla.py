@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Carregar os dados dos arquivos JSON
-continent_data = pd.read_json('chine_essential.json') #LEMBRAR DE MUDAR O NOME DO ARQUIVO
+continent_data = pd.read_json('china_essential.json') #LEMBRAR DE MUDAR O NOME DO ARQUIVO
 probes_data = pd.read_json('probes.json')
 
 # Mesclar os dados do continente com os dados dos probes para informações adicionais
