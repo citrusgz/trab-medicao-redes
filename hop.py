@@ -85,7 +85,7 @@ def plot_aggregated_hops(df):
     plt.show()
 
 # Carregar os arquivos JSON
-filenames = ['unitedK.json', 'chine.json', 'belarus.json']
+filenames = ['unitedK_essential.json', 'chine_essential.json', 'belarus_essential.json']
 json_data = load_json_data(filenames)
 
 # Processar os dados
