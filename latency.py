@@ -2,10 +2,10 @@ import json
 import matplotlib.pyplot as plt
 import datetime
 from collections import defaultdict
-from data_processor import get_country_by_prb_id, get_continent_by_prb_id # Importa a função de mapeamento do data_processor.py
+from probs import get_country_by_prb_id, get_continent_by_prb_id
 
 # Carregar os dados do arquivo JSON (chine_essential.json)
-with open('uk_essential.json', 'r') as f:
+with open('china_essential', 'r') as f:
     traceroutes = json.load(f)
 
 # Dicionário para armazenar latências agrupadas por país e intervalos de 2 horas
@@ -17,8 +17,8 @@ latency_data_continent = defaultdict(lambda: defaultdict(list))
 # Agrupar os dados e intervalos de 2 horas
 for trace in traceroutes:
     prb_id = trace['prb_id']
-    country = get_country_by_prb_id(prb_id)  # Obter o país baseado no prb_id
-    continent = get_continent_by_prb_id(prb_id)  # Obter o continente baseado no prb_id
+    country = get_country_by_prb_id(prb_id)
+    continent = get_continent_by_prb_id(prb_id)
     timestamp = trace['timestamp']
     avg_rtt = trace['avg_rtt']
 
@@ -26,10 +26,10 @@ for trace in traceroutes:
     time = datetime.datetime.utcfromtimestamp(timestamp)
     time_2_hour_interval = time.replace(minute=0, second=0, microsecond=0, hour=(time.hour // 2) * 2)
 
-    if country != "Unknown" and avg_rtt is not None:  # Ignorar valores de latência que sejam None
+    if country != "Unknown" and avg_rtt is not None:
         latency_data_country[country][time_2_hour_interval].append(avg_rtt)
     
-    if continent != "Unknown" and avg_rtt is not None:  # Ignorar valores de latência que sejam None
+    if continent != "Unknown" and avg_rtt is not None:
         latency_data_continent[continent][time_2_hour_interval].append(avg_rtt)
 
 def plot_country_latency_graphs(latency_data_country):
@@ -40,8 +40,8 @@ def plot_country_latency_graphs(latency_data_country):
 
         # Calcular a média da latência para cada intervalo de 2 horas
         for time, latencies in sorted(times_data.items()):
-            valid_rtts = [rtt for rtt in latencies if rtt is not None]  # Filtrar os valores None
-            if valid_rtts:  # Apenas calcular a média se houver valores válidos
+            valid_rtts = [rtt for rtt in latencies if rtt is not None]
+            if valid_rtts:
                 avg_rtt_for_time = sum(valid_rtts) / len(valid_rtts)
                 times.append(time)
                 avg_rtts.append(avg_rtt_for_time)
@@ -71,8 +71,8 @@ def plot_combined_graph(latency_data):
 
         # Calcular a média das latências para cada intervalo de 2 horas
         for time, rtts in sorted(times_data.items()):
-            valid_rtts = [rtt for rtt in rtts if rtt is not None]  # Filtrar os valores None
-            if valid_rtts:  # Apenas calcular a média se houver valores válidos
+            valid_rtts = [rtt for rtt in rtts if rtt is not None]
+            if valid_rtts:
                 avg_rtt_for_time = sum(valid_rtts) / len(valid_rtts)
                 times.append(time)
                 avg_rtts.append(avg_rtt_for_time)
@@ -134,8 +134,8 @@ def plot_continent_graphs(latency_data_continent):
 
         # Calcular a média das latências para cada intervalo de 2 horas
         for time, rtts in sorted(times_data.items()):
-            valid_rtts = [rtt for rtt in rtts if rtt is not None]  # Filtrar os valores None
-            if valid_rtts:  # Apenas calcular a média se houver valores válidos
+            valid_rtts = [rtt for rtt in rtts if rtt is not None]
+            if valid_rtts:
                 avg_rtt_for_time = sum(valid_rtts) / len(valid_rtts)
                 times.append(time)
                 avg_rtts.append(avg_rtt_for_time)
@@ -188,7 +188,7 @@ def plot_combined_continent_graph(latency_data_continent):
     plt.show()
 
 # Chamar as funções para gerar gráficos
-plot_country_latency_graphs(latency_data_country)  # Gráficos separados por país
-plot_combined_country_latency_graph(latency_data_country)  # Gráfico combinado de todos os países
-plot_continent_graphs(latency_data_continent)  # Gráficos separados por continente
-plot_combined_continent_graph(latency_data_continent)  # Gráfico combinado de todos os continentes
+plot_country_latency_graphs(latency_data_country)
+plot_combined_country_latency_graph(latency_data_country)
+plot_continent_graphs(latency_data_continent)
+plot_combined_continent_graph(latency_data_continent)

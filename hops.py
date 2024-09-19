@@ -2,7 +2,7 @@ import json
 import matplotlib.pyplot as plt
 import datetime
 from collections import defaultdict
-from data_processor import get_country_by_prb_id, get_continent_by_prb_id  # Importa funções do data_processor.py
+from probs import get_country_by_prb_id, get_continent_by_prb_id
 
 # Carregar os dados do arquivo JSON (chine_essential.json)
 with open('china_essential.json', 'r') as f:
@@ -17,21 +17,22 @@ hops_data_country = defaultdict(lambda: defaultdict(list))
 # Agrupar os dados e intervalos de 2 horas
 for trace in traceroutes:
     prb_id = trace['prb_id']
-    country = get_country_by_prb_id(prb_id)  # Obter o país baseado no prb_id
-    continent = get_continent_by_prb_id(prb_id)  # Obter o continente baseado no prb_id
+    country = get_country_by_prb_id(prb_id) 
+    continent = get_continent_by_prb_id(prb_id)
     timestamp = trace['timestamp']
-    num_hops = trace['hop_number']  # Usar o número de hops em vez da latência
+    num_hops = trace['hop_number']
 
     # Agrupar o tempo em intervalos de 2 horas
     time = datetime.datetime.utcfromtimestamp(timestamp)
     time_2_hour_interval = time.replace(minute=0, second=0, microsecond=0, hour=(time.hour // 2) * 2)
 
-    if continent != "Unknown" and num_hops is not None:  # Ignorar valores de hops que sejam None
+    if continent != "Unknown" and num_hops is not None:  
         hops_data_continent[continent][time_2_hour_interval].append(num_hops)
     
-    if country != "Unknown" and num_hops is not None:  # Ignorar valores de hops que sejam None
+    if country != "Unknown" and num_hops is not None:
         hops_data_country[country][time_2_hour_interval].append(num_hops)
 def plot_country_hops_graphs(hops_data_country):
+
     # Iterar sobre os países e gerar um gráfico para cada um
     for country, times_data in hops_data_country.items():
         times = []
@@ -93,6 +94,7 @@ def plot_combined_country_hops_graph(hops_data_country):
 
 # Função para gerar gráficos de número de hops por continente
 def plot_continent_hops_graphs(hops_data_continent):
+
     # Iterar sobre os continentes e gerar um gráfico para cada um
     for continent, times_data in hops_data_continent.items():
         times = []
@@ -100,8 +102,8 @@ def plot_continent_hops_graphs(hops_data_continent):
 
         # Calcular a média do número de hops para cada intervalo de 2 horas
         for time, hops in sorted(times_data.items()):
-            valid_hops = [hop for hop in hops if hop is not None]  # Filtrar os valores None
-            if valid_hops:  # Apenas calcular a média se houver valores válidos
+            valid_hops = [hop for hop in hops if hop is not None]
+            if valid_hops:
                 avg_hops_for_time = sum(valid_hops) / len(valid_hops)
                 times.append(time)
                 avg_hops.append(avg_hops_for_time)
@@ -154,7 +156,7 @@ def plot_combined_continent_hops_graph(hops_data_continent):
     plt.show()
 
 # Chamar as funções para gerar gráficos
-plot_country_hops_graphs(hops_data_country)  # Gráficos separados por país
-plot_combined_country_hops_graph(hops_data_country)  # Gráfico combinado de todos os países
-plot_continent_hops_graphs(hops_data_continent)  # Gráficos separados por continente
-plot_combined_continent_hops_graph(hops_data_continent)  # Gráfico combinado de todos os continentes
+plot_country_hops_graphs(hops_data_country)
+plot_combined_country_hops_graph(hops_data_country)
+plot_continent_hops_graphs(hops_data_continent)
+plot_combined_continent_hops_graph(hops_data_continent)

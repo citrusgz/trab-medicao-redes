@@ -1,7 +1,7 @@
 import json
 import matplotlib.pyplot as plt
 from collections import defaultdict
-from data_processor import get_country_by_prb_id, get_continent_by_prb_id  # Importa funções do data_processor.py
+from probs import get_country_by_prb_id, get_continent_by_prb_id
 
 # Carregar os dados do arquivo JSON (chine_essential.json)
 with open('china_essential.json', 'r') as f:
@@ -14,10 +14,10 @@ hops_latency_data_country = defaultdict(lambda: {'latency': [], 'hops': []})
 # Preencher o dicionário com latências e hops para cada continente
 for trace in traceroutes:
     prb_id = trace['prb_id']
-    country = get_country_by_prb_id(prb_id)  # Obter o país baseado no prb_id
-    continent = get_continent_by_prb_id(prb_id)  # Obter o continente baseado no prb_id
+    country = get_country_by_prb_id(prb_id)
+    continent = get_continent_by_prb_id(prb_id)
     avg_rtt = trace['avg_rtt']
-    num_hops = trace['hop_number']  # Usar o número de hops
+    num_hops = trace['hop_number']
 
     # Somente armazenar se tanto a latência quanto o número de hops forem válidos
     if continent != "Unknown" and avg_rtt is not None and num_hops is not None:
@@ -28,6 +28,7 @@ for trace in traceroutes:
 
 # Função para gerar gráficos de relação entre hops e latência por país
 def plot_country_hops_latency_graphs(hops_latency_data_country):
+
     # Iterar sobre os países e gerar um gráfico para cada um
     for country, data in hops_latency_data_country.items():
         latencies = data['latency']
@@ -48,6 +49,7 @@ def plot_country_hops_latency_graphs(hops_latency_data_country):
 
 # Função para gerar gráficos de relação entre hops e latência por continente
 def plot_continent_hops_latency_graphs(hops_latency_data_continent):
+
     # Iterar sobre os continentes e gerar um gráfico para cada um
     for continent, data in hops_latency_data_continent.items():
         latencies = data['latency']
@@ -92,5 +94,5 @@ def plot_combined_continent_hops_latency_graph(hops_latency_data_continent):
 
 # Chamar as funções para gerar gráficos
 plot_country_hops_latency_graphs(hops_latency_data_country)
-plot_continent_hops_latency_graphs(hops_latency_data_continent)  # Gráficos separados por continente
-plot_combined_continent_hops_latency_graph(hops_latency_data_continent)  # Gráfico combinado de todos os continentes
+plot_continent_hops_latency_graphs(hops_latency_data_continent)  
+plot_combined_continent_hops_latency_graph(hops_latency_data_continent)
