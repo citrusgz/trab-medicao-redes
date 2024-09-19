@@ -4,7 +4,7 @@ from collections import defaultdict
 from probs import get_country_by_prb_id, get_continent_by_prb_id
 
 # Carregar os dados do arquivo JSON (chine_essential.json)
-with open('china_essential.json', 'r') as f:
+with open('belarus_essential.json', 'r') as f:
     traceroutes = json.load(f)
 
 # Dicionário para armazenar a relação entre número de hops e latência agrupados por continente
@@ -46,6 +46,30 @@ def plot_country_hops_latency_graphs(hops_latency_data_country):
             # Salvar o gráfico como imagem
             plt.savefig(f'hops_latency_{country}.png')
             plt.show()
+
+# Função para gerar um gráfico combinado de todos os países (hops vs latência)
+def plot_combined_country_hops_latency_graph(hops_latency_data_country):
+    plt.figure(figsize=(12, 8))
+
+    # Iterar sobre os países e adicionar ao gráfico combinado
+    for country, data in hops_latency_data_country.items():
+        latencies = data['latency']
+        hops = data['hops']
+
+        # Plotar os dados se houver latências e hops válidos
+        if latencies and hops:
+            plt.scatter(latencies, hops, label=f'{country}', alpha=0.6, edgecolor='k')
+
+    # Customizar o gráfico
+    plt.title('Relação entre Latência e Número de Hops - Todos os Países')
+    plt.xlabel('Latência média (ms)')
+    plt.ylabel('Número de Hops')
+    plt.legend(title="Países")
+    plt.tight_layout()
+
+    # Salvar o gráfico como imagem
+    plt.savefig('hops_latency_combined_countries.png')
+    plt.show()
 
 # Função para gerar gráficos de relação entre hops e latência por continente
 def plot_continent_hops_latency_graphs(hops_latency_data_continent):
@@ -93,6 +117,7 @@ def plot_combined_continent_hops_latency_graph(hops_latency_data_continent):
     plt.show()
 
 # Chamar as funções para gerar gráficos
-plot_country_hops_latency_graphs(hops_latency_data_country)
-plot_continent_hops_latency_graphs(hops_latency_data_continent)  
-plot_combined_continent_hops_latency_graph(hops_latency_data_continent)
+#plot_country_hops_latency_graphs(hops_latency_data_country)
+plot_combined_country_hops_latency_graph(hops_latency_data_country)
+#plot_continent_hops_latency_graphs(hops_latency_data_continent)  
+#plot_combined_continent_hops_latency_graph(hops_latency_data_continent)

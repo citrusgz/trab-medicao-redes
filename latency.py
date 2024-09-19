@@ -5,7 +5,7 @@ from collections import defaultdict
 from probs import get_country_by_prb_id, get_continent_by_prb_id
 
 # Carregar os dados do arquivo JSON (chine_essential.json)
-with open('china_essential', 'r') as f:
+with open('belarus_essential.json', 'r') as f:
     traceroutes = json.load(f)
 
 # Dicionário para armazenar latências agrupadas por país e intervalos de 2 horas
@@ -33,6 +33,7 @@ for trace in traceroutes:
         latency_data_continent[continent][time_2_hour_interval].append(avg_rtt)
 
 def plot_country_latency_graphs(latency_data_country):
+
     # Iterar sobre os países e gerar um gráfico para cada um
     for country, times_data in latency_data_country.items():
         times = []

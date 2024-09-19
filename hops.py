@@ -5,7 +5,7 @@ from collections import defaultdict
 from probs import get_country_by_prb_id, get_continent_by_prb_id
 
 # Carregar os dados do arquivo JSON (chine_essential.json)
-with open('china_essential.json', 'r') as f:
+with open('belarus_essential.json', 'r') as f:
     traceroutes = json.load(f)
 
 # Dicionário para armazenar número de hops agrupados por continente e intervalos de 2 horas
