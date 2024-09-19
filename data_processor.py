@@ -34,6 +34,12 @@ paises = {
     33053: {"nome": "África do Sul", "continente": "África"}
 }
 
+def get_country_by_prb_id(prb_id):
+    return paises.get(prb_id, {}).get("nome", "Unknown")
+
+def get_continent_by_prb_id(prb_id):
+    return paises.get(prb_id, {}).get("continente", "Unknown")
+
 def process_traceroute_file(file_path):
     # Define the output path by appending "_essential" to the original file name
     output_path = os.path.splitext(file_path)[0] + "_essential.json"
